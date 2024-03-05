@@ -9,16 +9,19 @@ However, this is applicable to any Java project.
 ## Usage
 
 The analyzer is both an executable and an agent.
-The classpath is needed to find the classes in the project to be analyzed.
-It expects the path to an output directory where the exec files will be generated, and a list of fully qualified test case/suite names.
+It expects as arguments the path to an output directory where the exec files will be generated, and a list of fully qualified test case/suite names.
 
 ```sh
 java \
-  -jar atomic-coverage-analyzer.jar \
   -javaagent:atomic-coverage-analyzer.jar \
-  -classpath <analyzed-paths> \
-  <output-directory> <cases-or-suites...>
+  -classpath atomic-coverage-analyzer.jar:<analyzed-paths> \
+  fr.evref.modest.AtomicCoverageAnalyzer \
+  <output-directory> <cases-and-suites...>
 ```
+
+> [!IMPORTANT]
+> The classpath is needed to find the classes in the project to be analyzed.
+> This means that the `-jar` option cannot be used to run this program.
 
 ## Build
 
