@@ -2,6 +2,8 @@ package fr.evref.modest;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -16,6 +18,8 @@ import org.junit.runner.notification.RunListener;
  * thread-safe.
  */
 public class AtomicCoverageAnalyzer extends RunListener {
+
+	private static final PrintStream stdout = System.out;
 
 	/**
 	 * Expect a directory path to output coverage data, and fully qualified JUnit
@@ -33,7 +37,7 @@ public class AtomicCoverageAnalyzer extends RunListener {
 		try {
 			outputDirectory = Files.createDirectories(Paths.get(args[0])).toString();
 		} catch (IOException e) {
-			error(e.getMessage());
+			error(e);
 			return;
 		}
 
@@ -44,12 +48,22 @@ public class AtomicCoverageAnalyzer extends RunListener {
 				classes[i] = Class.forName(args[i + 1]);
 			}
 		} catch (ClassNotFoundException e) {
-			error(e.getMessage());
+			error(e);
 			return;
 		}
 
+		// suppress stdout
+		System.setOut(new PrintStream(new OutputStream() {
+			public void write(int b) {
+				// DO NOTHING
+			}
+		}));
+
 		// run analysis
 		new AtomicCoverageAnalyzer(outputDirectory).run(classes);
+
+		// announce success on stdout
+		stdout.println("DONE");
 
 		// ensure terminate
 		System.exit(0);
@@ -58,6 +72,11 @@ public class AtomicCoverageAnalyzer extends RunListener {
 	private static void error(String message) {
 		System.out.println("ERROR");
 		System.err.println(message);
+	}
+
+	private static void error(Exception e) {
+		System.out.println("ERROR");
+		e.printStackTrace();
 	}
 
 	private String outputDirectory;
