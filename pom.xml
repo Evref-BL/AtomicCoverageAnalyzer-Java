@@ -50,6 +50,9 @@
 						<manifest>
 							<mainClass>fr.evref.modest.AtomicCoverageAnalyzer</mainClass>
 						</manifest>
+						<manifestEntries>
+							<Premain-Class>org.jacoco.agent.rt.internal_4742761.PreMain</Premain-Class>
+						</manifestEntries>
 					</archive>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
