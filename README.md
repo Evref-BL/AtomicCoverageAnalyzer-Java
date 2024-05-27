@@ -1,6 +1,6 @@
 # Atomic Coverage Analyzer for Java
 
-Determine the coverage of each test method with [JUnit](https://junit.org/junit4/) and [JaCoCo](https://www.jacoco.org/).  
+Determine the coverage of each test method with [JUnit 4](https://junit.org/junit4/) and [JaCoCo](https://www.jacoco.org/).  
 Run JUnit cases or suites, get a JaCoCo execution data file (.exec) for each test method.
 
 > [!NOTE]
